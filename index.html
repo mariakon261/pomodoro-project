@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="left-side-container">
+
+       <div id="tasks-div">
+        <p id="question-task">What do you want to focus on?</p>
+        <img src="./icons//edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="editing-icon" onclick="openTaskManager()">
+      </div>
+
+  <div id="tasks-container" class="hidden">  
+        <div id="task-input-container">
+        <input id='new-task-input' type="text" placeholder="Add a new task...">
+        <button id="add-new-task-button" class="button">Add</button>
+        </div>
+        <ul id="tasks-list">
+          <!--empty list, will be populated through javascript-->
+        </ul>
+      </div>
+  </div>
+
+  <div id="right-side-container">
+    <nav id="nav-bar">
+        <ul id="nav-bar-ul">
+           <li class="nav-item"><a href="#" class="nav-link nav-link-pomodoro">Pomodoro</a></li>
+  <li class="nav-item"><a href="#" class="nav-link nav-link-shortbreak">Short Break</a></li>
+  <li class="nav-item"><a href="#" class="nav-link nav-link-longbreak">Long Break</a></li>
+       </ul>
+       
+       <div id="right-side-icons">
+         <img src="/icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="maximise icon">
+         <img src="/icons/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="settings icon">
+       </div>
+    </nav>
+
+    <div id="pomodoro-container">
+      
+      <div id="timer-display">25:00</div>
+
+      <div id="progress-container">
+            <div id="progress-bar"></div>
+            <div id="progress-bar-status">0%</div>
+      </div>
+
+      <div class="buttons-group">
+            <button class='button' id="start-button">Start</button>
+          <button class="button" id="reset-button">Reset</button>
+      </div>
+        </div>
+    <script src="script.js"></script>
+
+</body>
+</html>

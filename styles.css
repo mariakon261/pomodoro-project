@@ -1,0 +1,168 @@
+/*universal styling */ 
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mansalva&display=swap');
+*{
+    margin:0;
+    padding:0;
+    font-family: 'Inter', Courier, monospace,'sans-serif';
+    background-color:#141414 ;
+    color: #ffffff; 
+    max-height:100vh;   
+}
+body {
+    display: flex;
+    
+    background-color: rgb(7, 7, 7);
+}
+
+#left-side-container {
+    width:30%;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid black;
+    border-radius : 50px;
+    overflow: hidden;
+    padding: 10px;
+    margin-top:10px;
+    
+}
+#right-side-container {
+    width:70%;
+    border: 5px solid black;
+    border-radius: 50px;
+    overflow:hidden;
+    padding:10px;
+    margin-top: 10px;
+}
+/* nav bar styling */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#nav-bar-ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* make the links centered !!! */ 
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight : normal;
+    list-style-type: none;
+}
+ul {
+    list-style-type: none;
+}
+/*links - nav bar items */
+#nav-bar-ul li a {
+    display: block;      
+    text-decoration: none;
+    padding: 20px 20px;   
+    border-radius: 20px;
+           
+}
+.nav-link-active {
+    background-color: #64895C;
+}
+/*icons styling */
+
+#right-side-icons {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 20px;
+}
+#right-side-icons img {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+/*pomodoro container styling */ 
+#pomodoro-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+    width:100%;
+    height:88vh;
+}
+#task-input-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+/*#tasks-list {
+    display: flex;
+    border: 2px solid yellow;
+    flex-direction: column;
+} */
+.completed-task {
+    text-decoration : line-through;
+    text-decoration-color: #64895C;
+    text-decoration-thickness: 20%;
+    cursor: pointer;
+}
+input {
+   outline: none;
+   border: none;
+}
+/* CREATE SOMETHING INTERESTING FOR THE INPUT */
+input:focus {
+    
+     border: none;
+    background-color: transparent;
+    border-bottom: 2px solid #64895C;
+    transition: border-bottom-color 0.8s linear;
+}
+#tasks-div {
+    display:flex;
+    gap: 1rem;
+    margin-top: 10px;
+    padding: 1rem;
+}
+#tasks-div img {
+    cursor: pointer;
+    fill: white;
+}
+#timer-display {
+    font-size: 110px;
+}
+.hidden {
+    display: none;
+}
+ul {
+    text-decoration: none;
+}
+/*buttons styling */
+.buttons-group {
+    display: flex;
+    gap: 1rem;
+}
+.button {
+    padding:0.5rem 1.5rem;
+    font-size: 16px;;
+    cursor: pointer;
+    border-radius: 20px;
+}
+.button:hover, a:hover {
+    background-color: #64895C;
+    transition : 1s linear;
+    border-radius: 20px;
+}
+/*progress bar styling */
+#progress-container {
+    width:30%;
+    background-color:#D9D9D9;
+    height:20px;
+    border-radius : 20px;
+    overflow: hidden; /* forces child element (progress-bar) to fit to parent's (container) shape*/ 
+} 
+
+#progress-bar {
+    background-color:#64895C;
+    width:0%;
+    height:20px;
+    transition: width 1s linear;
+} 
