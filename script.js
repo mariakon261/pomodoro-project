@@ -157,3 +157,84 @@ function removeTask(item) {
         item.remove();
     },2000);
 }
+
+//fullscreen mode 
+const fullscreenModeIcon = document.getElementById("fullscreen-mode");
+let elem = document.documentElement;
+
+//open fullscreen mode
+const requestFullscreen = () => {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { // Firefox
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { // IE/Edge
+    elem.msRequestFullscreen();
+  }
+};
+
+//exit full screen mode 
+const exitFullscreen = () => {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { // Firefox
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { // IE/Edge
+    document.msExitFullscreen();
+  }
+};
+
+fullscreenModeIcon.addEventListener('click', () => {
+    if (isFullscreen()) {
+        exitFullscreen();
+    }
+    else {
+        requestFullscreen();
+    }});
+
+
+const isFullscreen = () => {
+  return document.fullscreenElement || 
+         document.mozFullScreenElement || 
+         document.webkitFullscreenElement || 
+         document.msFullscreenElement;
+};
+
+// Toggle fullscreen on button click
+fullscreenModeIcon.addEventListener('click', () => {
+  if (isFullscreen()) {
+    fullscreenModeIcon.src = 'C:/Users/maria/OneDrive/Desktop/maria_sxoli/projects/pomodoro/icons/fullscreen_exit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg';
+    exitFullscreen();
+    
+  } else {
+    requestFullscreen();
+    fullscreenModeIcon.src = 'C:/Users/maria/OneDrive/Desktop/maria_sxoli/projects/pomodoro/icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
+  }
+});
+
+//settings modal code 
+const settingsIcon = document.getElementById('settings');
+const updateButton = document.getElementById("update-settings-modal-button");
+const settingsModal = document.getElementById('settings-modal')
+
+settingsIcon.addEventListener('click', () => {
+  console.log("Settings were clicked.");
+  settingsModal.showModal();
+})
+
+//close modal if user clicks anywhere outisde of the modal
+document.addEventListener('click' ,(event) => {
+  if (settingsModal.open && !settingsModal.contains(event.target) && event.target !== settingsIcon) { // check if the event (click) did NOT happen INSIDE the settingsModal
+    settingsModal.close();
+  }
+}) 
+
+updateButton.addEventListener('click', () => {
+//actually update the changes.
+  console.log("Updates changed.")
+  settingsModal.close()
+})

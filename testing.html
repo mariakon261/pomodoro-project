@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #settings-modal {
+        width:400px;
+        padding-top: 5px;
+        padding-left:40px;
+        padding-right:40px;
+       }
+       #settings-options {
+        display: flex;
+        flex-direction: row;
+        justify-content:space-evenly; /* x axis*/
+        padding: 10px;
+        gap: 40px;
+        
+       }
+       #settings-options h3 {
+        margin-top: 0px;
+       }
+       #sections-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+       }
+       section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+       }
+       section h4 {
+        margin-bottom: 10px;
+       }
+      
+      
+    </style>
+</head>
+<body>
+    <button id='open-modal-button'>Open</button>
+
+    <dialog id='settings-modal'> 
+        <header id="settings-options">
+            <h3>Timers</h3>
+            <h3>Sounds</h3>
+        </header>
+
+        <div id="sections-group">
+          <section>
+            <h4>Pomodoro duration (min) </h4>
+            <input type="text">
+          </section>
+
+          <section>
+            <h4>Short Break duration (min)</h4>
+            <input type="text">
+          </section>
+
+          <section>
+            <h4>Long Break duration (min)</h4>
+            <input type="text">
+          </section>
+        </div>
+
+
+        <button id="update-settings-modal-button">Update</button>
+    </dialog>
+
+    <script>
+    const openButton = document.getElementById('open-modal-button');
+    const updateButton = document.getElementById("update-settings-modal-button");
+    const settingsModal = document.getElementById('settings-modal')
+
+    openButton.addEventListener('click', () => {
+        settingsModal.showModal();
+    })
+
+    document.addEventListener('click' ,(event) => {
+        if (settingsModal.open && !settingsModal.contains(event.target) && event.target !== openButton) { // check if the event (click) did NOT happen INSIDE the settingsModal
+            settingsModal.close();
+        }
+    }) 
+
+    updateButton.addEventListener('click', () => {
+        //actually update the changes.
+        console.log("Updates changed.")
+        settingsModal.close()
+    })
+    
+    </script>
+</body>
+</html>

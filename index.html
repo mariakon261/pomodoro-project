@@ -8,52 +8,82 @@
 </head>
 <body>
 
-<div id="left-side-container">
+  <main>
 
-       <div id="tasks-div">
-        <p id="question-task">What do you want to focus on?</p>
-        <img src="./icons//edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="editing-icon" onclick="openTaskManager()">
-      </div>
+<section id="left-side-container">
 
-  <div id="tasks-container" class="hidden">  
-        <div id="task-input-container">
-        <input id='new-task-input' type="text" placeholder="Add a new task...">
-        <button id="add-new-task-button" class="button">Add</button>
-        </div>
-        <ul id="tasks-list">
-          <!--empty list, will be populated through javascript-->
-        </ul>
-      </div>
-  </div>
+  <div id="tasks-div">
+    <p id="question-task">What do you want to focus on?</p>
+    <img src="./icons//edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="editing-icon" onclick="openTaskManager()">
+  </section>
 
-  <div id="right-side-container">
+  <section id="tasks-container" class="hidden">  
+    <div id="task-input-container">
+    <input id='new-task-input' type="text" placeholder="Add a new task...">
+    <button id="add-new-task-button" class="button">Add</button>
+    </div>
+      <ul id="tasks-list">
+        <!--empty list, will be populated through javascript-->
+      </ul>
+    </div>
+  </section>
+
+  <section id="right-side-container">
+
     <nav id="nav-bar">
-        <ul id="nav-bar-ul">
-           <li class="nav-item"><a href="#" class="nav-link nav-link-pomodoro">Pomodoro</a></li>
-  <li class="nav-item"><a href="#" class="nav-link nav-link-shortbreak">Short Break</a></li>
-  <li class="nav-item"><a href="#" class="nav-link nav-link-longbreak">Long Break</a></li>
-       </ul>
+      <ul id="nav-bar-ul">
+        <li class="nav-item"><a href="#" class="nav-link nav-link-pomodoro">Pomodoro</a></li>
+        <li class="nav-item"><a href="#" class="nav-link nav-link-shortbreak">Short Break</a></li>
+        <li class="nav-item"><a href="#" class="nav-link nav-link-longbreak">Long Break</a></li>
+      </ul>
        
-       <div id="right-side-icons">
-         <img src="/icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="maximise icon">
-         <img src="/icons/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="settings icon">
-       </div>
+      <div id="right-side-icons">
+        <img id="fullscreen-mode" src="/icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="fullscreen icon">
+        <img id='settings' src="/icons/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="settings icon">
+      </div>
     </nav>
 
-    <div id="pomodoro-container">
-      
-      <div id="timer-display">25:00</div>
+    <!--settings modal code-->
+     <dialog id='settings-modal'> 
+        <header id="settings-options">
+            <h3>Timers</h3>
+            <h3>Sounds</h3>
+        </header>
 
-      <div id="progress-container">
-            <div id="progress-bar"></div>
-            <div id="progress-bar-status">0%</div>
-      </div>
+        <div id="sections-group">
+          <section>
+            <h4>Pomodoro duration (min) </h4>
+            <input id='modify-duration-input' type="text">
+          </section>
 
-      <div class="buttons-group">
-            <button class='button' id="start-button">Start</button>
-          <button class="button" id="reset-button">Reset</button>
-      </div>
+          <section>
+            <h4>Short Break duration (min)</h4>
+            <input type="text">
+          </section>
+
+          <section>
+            <h4>Long Break duration (min)</h4>
+            <input type="text">
+          </section>
         </div>
+
+        <button id="update-settings-modal-button">Update</button>
+    </dialog>
+
+    <div id="pomodoro-container">
+      <div id="timer-display">25:00</div>
+      <div id="progress-container">
+      <div id="progress-bar"></div>
+      <div id="progress-bar-status">0%</div>
+    </div>
+
+    <div class="buttons-group">
+      <button class='button' id="start-button">Start</button>
+      <button class="button" id="reset-button">Reset</button>
+    </div>
+
+  </section>
+  </main>
     <script src="script.js"></script>
 
 </body>
