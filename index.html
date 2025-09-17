@@ -9,23 +9,25 @@
 <body>
 
   <main>
-
+<!-- allakse to se task-section-->
 <section id="left-side-container">
-
+<!--allakse to se -->
   <div id="tasks-div">
     <p id="question-task">What do you want to focus on?</p>
     <img src="./icons//edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="editing-icon" onclick="openTaskManager()">
-  </section>
-
+  </div>
   <section id="tasks-container" class="hidden">  
+
     <div id="task-input-container">
-    <input id='new-task-input' type="text" placeholder="Add a new task...">
-    <button id="add-new-task-button" class="button">Add</button>
+      <input id='new-task-input' type="text" placeholder="Add a new task...">
+      <button id="add-new-task-button" class="button">Add</button>
     </div>
-      <ul id="tasks-list">
-        <!--empty list, will be populated through javascript-->
-      </ul>
+    
+    <ul id="tasks-list">
+      <!--empty list, will be populated through javascript-->
+    </ul>
     </div>
+  </section>
   </section>
 
   <section id="right-side-container">
@@ -44,7 +46,9 @@
     </nav>
 
     <!--settings modal code-->
-     <dialog id='settings-modal'> 
+     <dialog id='settings-modal' >
+
+      <div id="settings-modal-container">
         <header id="settings-options">
             <h3>Timers</h3>
             <h3>Sounds</h3>
@@ -53,21 +57,22 @@
         <div id="sections-group">
           <section>
             <h4>Pomodoro duration (min) </h4>
-            <input id='modify-duration-input' type="text">
+            <input id='modify-timer-duration-input' type="text" placeholder="Enter pomodoro duration...">
           </section>
 
           <section>
             <h4>Short Break duration (min)</h4>
-            <input type="text">
+            <input id="modify-short-break-duration-input" type="text" placeholder="Enter short break duration...">
           </section>
 
           <section>
             <h4>Long Break duration (min)</h4>
-            <input type="text">
+            <input id="modify-long-break-duration-input" type="text" placeholder="Enter long break duration...">
           </section>
         </div>
 
-        <button id="update-settings-modal-button">Update</button>
+        <button id="update-settings-modal-button" class="button">Update</button>
+      </div>
     </dialog>
 
     <div id="pomodoro-container">

@@ -5,7 +5,8 @@ let resetBtn = document.getElementById("reset-button");
 let isBreak = false; //check if user is on short break
 let isRunning = false; //ensure that new intervals will not start in case the user clicks on the start button multiple times.
 let interval;
-let totalTime = 25*60; //1500 secs = 25 mins //60 secs * mins you want
+let totalDefaultTime = 25; //minutes
+let totalTime = totalDefaultTime*60; //1500 secs = 25 mins //60 secs * mins you want
 let timeLeft = totalTime;
 
 let progressBar = document.getElementById('progress-bar');
@@ -121,6 +122,7 @@ let tasksList = document.getElementById("tasks-list");
 //TASKS - TODO LIST FOR POMODORO
 function openTaskManager() {
     console.log("Editing icon has been clicked.");
+    newTaskInput.classList.add('settings-headers-focus'); //ALLAKSE TO ONOMA KLASHS!!!!!!!!!!!!1
     tasksContainer.classList.toggle('hidden');
 }
 
@@ -158,7 +160,7 @@ function removeTask(item) {
     },2000);
 }
 
-//fullscreen mode 
+//FULLSCREEN MODE
 const fullscreenModeIcon = document.getElementById("fullscreen-mode");
 let elem = document.documentElement;
 
@@ -216,13 +218,17 @@ fullscreenModeIcon.addEventListener('click', () => {
   }
 });
 
-//settings modal code 
+//DIALOG MODAL SETTINGS
 const settingsIcon = document.getElementById('settings');
 const updateButton = document.getElementById("update-settings-modal-button");
 const settingsModal = document.getElementById('settings-modal')
 
 settingsIcon.addEventListener('click', () => {
   console.log("Settings were clicked.");
+  //arxikopoio tis times ton inputs se empty strings.
+  modifyLongBreakDuration.value = ''
+  modifyShortBreakDuration.value = ''
+  modifyTimerDurationInput.value = ''
   settingsModal.showModal();
 })
 
@@ -232,9 +238,43 @@ document.addEventListener('click' ,(event) => {
     settingsModal.close();
   }
 }) 
+//input fields for updating
+let modifyTimerDurationInput = document.getElementById("modify-timer-duration-input");
+let modifyShortBreakDuration = document.getElementById("modify-short-break-duration-input");
+let modifyLongBreakDuration = document.getElementById("modify-long-break-duration-input");
 
 updateButton.addEventListener('click', () => {
 //actually update the changes.
   console.log("Updates changed.")
+  //!!!GRAPSE METHODO POU THA TSEKAREI AN EINAI ARITHMOI TO INPUT
+  //keep track apo to allagmeno timer duration
+  let modifiedTimerDurationValue = modifyTimerDurationInput.value;
+  console.log(modifiedTimerDurationValue);
+  totalTime = modifiedTimerDurationValue * 60;
+  timerDisplay.innerHTML = modifiedTimerDurationValue + ":00";
+  //keep track apo to allagmeno short break duration
+  let modifiedShortBreakDurationValue = modifyShortBreakDuration.value;
+  console.log(modifiedShortBreakDurationValue);
+  //keep track apo to allagmeno long break duration
+  let modifiedLongBreakDurationValue = modifyLongBreakDuration.value;
+  console.log(modifiedLongBreakDurationValue);
   settingsModal.close()
 })
+
+//trigger the animation for showing which setting option (timers-sounds) is currently selected.
+const settingsHeaders = document.querySelectorAll('#settings-options > h3');
+let activeHeader = null;
+
+settingsHeaders.forEach(header => {
+  header.addEventListener('click', () => {
+    //console.log("A setting header was clicked.");
+    if (activeHeader) // an einai patimeno kapoio header
+     {
+      activeHeader.classList.remove('settings-headers-focus');
+     }
+    // and den einai patimeno kapoio header
+    header.classList.add('settings-headers-focus');
+    activeHeader = header;
+  })
+})
+
