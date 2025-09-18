@@ -6,8 +6,13 @@ let isBreak = false; //check if user is on short break
 let isRunning = false; //ensure that new intervals will not start in case the user clicks on the start button multiple times.
 let interval;
 let totalDefaultTime = 25; //minutes
+let shortBreakDefaultTime = 5;
+let longBreakDefaultTime = 15;
 let totalTime = totalDefaultTime*60; //1500 secs = 25 mins //60 secs * mins you want
 let timeLeft = totalTime;
+
+
+let currentMode = "pomodoro" //default state
 
 let progressBar = document.getElementById('progress-bar');
 let progressBarStatus = document.getElementById('progress-bar-status');
@@ -57,7 +62,7 @@ function startTimer() {
             if (!isBreak) {
                 // Switch to break
                 isBreak = true;
-                totalTime = 5 * 60;
+                totalTime = shortBreakDefaultTime * 60;
                 timeLeft = totalTime;
                 startBtn.textContent = "Pause"; //because the timer is running again
                 updateTimer();
@@ -65,7 +70,7 @@ function startTimer() {
             } else {
                 // switch back to pomodoro
                 isBreak = false;
-                totalTime = 25 * 60;
+                totalTime = totalDefaultTime * 60;
                 timeLeft = totalTime;
                 startBtn.textContent = "Start"; // because the timer is not running
                 updateTimer();
@@ -97,11 +102,14 @@ navLinks.forEach(link => {
     // Add active class to the clicked link
     link.classList.add('nav-link-active');
      if(link.classList.contains('nav-link-pomodoro')) {
-        totalTime = 25 * 60;
+      currentMode = "pomodoro"
+        totalTime = totalDefaultTime * 60;
     } else if(link.classList.contains('nav-link-shortbreak')) {
-        totalTime = 5 * 60;
+      currentMode = "shortBreak"
+        totalTime = shortBreakDefaultTime * 60;
     } else if(link.classList.contains('nav-link-longbreak')) {
-        totalTime = 15 * 60; 
+      currentMode = "longBreak"
+        totalTime = longBreakDefaultTime * 60; 
     }
     // Update timeLeft and display
     timeLeft = totalTime;
@@ -161,7 +169,7 @@ function removeTask(item) {
 }
 
 //FULLSCREEN MODE
-const fullscreenModeIcon = document.getElementById("fullscreen-mode");
+const fullscreenModeIcon = document.getElementById("fullscreen-mode-icon");
 let elem = document.documentElement;
 
 //open fullscreen mode
@@ -208,27 +216,28 @@ const isFullscreen = () => {
 
 // Toggle fullscreen on button click
 fullscreenModeIcon.addEventListener('click', () => {
-  if (isFullscreen()) {
-    fullscreenModeIcon.src = 'C:/Users/maria/OneDrive/Desktop/maria_sxoli/projects/pomodoro/icons/fullscreen_exit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg';
+  if (isFullscreen()) { //BRES GIATI DE LEITOURGEI TO SRC
+    fullscreenModeIcon.src = 'C:/Users/maria/OneDrive/Desktop/maria_sxoli/projects/pomodoro/icons/dark-mode-icons/fullscreen_exit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg';
     exitFullscreen();
     
   } else {
     requestFullscreen();
-    fullscreenModeIcon.src = 'C:/Users/maria/OneDrive/Desktop/maria_sxoli/projects/pomodoro/icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
+    fullscreenModeIcon.src = 'C:\Users/maria/OneDrive/Desktop/maria_sxoli/projects/pomodoro/icons/dark-mode-icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg';
   }
 });
 
 //DIALOG MODAL SETTINGS
-const settingsIcon = document.getElementById('settings');
+const settingsIcon = document.getElementById('settings-icon');
 const updateButton = document.getElementById("update-settings-modal-button");
 const settingsModal = document.getElementById('settings-modal')
 
 settingsIcon.addEventListener('click', () => {
   console.log("Settings were clicked.");
   //arxikopoio tis times ton inputs se empty strings.
-  modifyLongBreakDuration.value = ''
-  modifyShortBreakDuration.value = ''
-  modifyTimerDurationInput.value = ''
+  for (i=0; i<updateInputFields.length; i++) {
+    updateInputFields[i].value ='';
+  }
+  
   settingsModal.showModal();
 })
 
@@ -242,24 +251,71 @@ document.addEventListener('click' ,(event) => {
 let modifyTimerDurationInput = document.getElementById("modify-timer-duration-input");
 let modifyShortBreakDuration = document.getElementById("modify-short-break-duration-input");
 let modifyLongBreakDuration = document.getElementById("modify-long-break-duration-input");
+let updateInputFields = document.querySelectorAll('.update-input');
 
-updateButton.addEventListener('click', () => {
-//actually update the changes.
-  console.log("Updates changed.")
-  //!!!GRAPSE METHODO POU THA TSEKAREI AN EINAI ARITHMOI TO INPUT
-  //keep track apo to allagmeno timer duration
-  let modifiedTimerDurationValue = modifyTimerDurationInput.value;
-  console.log(modifiedTimerDurationValue);
-  totalTime = modifiedTimerDurationValue * 60;
-  timerDisplay.innerHTML = modifiedTimerDurationValue + ":00";
-  //keep track apo to allagmeno short break duration
-  let modifiedShortBreakDurationValue = modifyShortBreakDuration.value;
-  console.log(modifiedShortBreakDurationValue);
-  //keep track apo to allagmeno long break duration
-  let modifiedLongBreakDurationValue = modifyLongBreakDuration.value;
-  console.log(modifiedLongBreakDurationValue);
-  settingsModal.close()
-})
+function isNumber(value) {
+  return !isNaN(Number(value));
+}
+
+function handleSettingsUpdate() {
+  console.log("Updates changed.");
+
+  const values = [totalDefaultTime, shortBreakDefaultTime, longBreakDefaultTime];
+  let updated = false;
+
+  updateInputFields.forEach((input, i) => {
+    const rawValue = input.value.trim();
+
+    if (rawValue === "") return; // skipping empty input fields
+
+    if (isNumber(rawValue)) {
+      const numericValue = Number(rawValue);
+
+      if (numericValue !== values[i]) {
+        // updating corresponding value
+        if (i === 0) {
+          totalDefaultTime = numericValue;
+          if (currentMode === "pomodoro") {
+            totalTime = numericValue * 60;
+            timeLeft = totalTime;
+            updateTimer();
+          }
+        }
+        else if (i === 1) {
+          shortBreakDefaultTime = numericValue;
+          if (currentMode === "shortbreak") {
+            totalTime = numericValue * 60;
+            timeLeft = totalTime;
+            updateTimer();
+          }
+        }
+        else if (i === 2) {
+          longBreakDefaultTime = numericValue;
+          if (currentMode === "longbreak") {
+            totalTime = numericValue * 60;
+            timeLeft = totalTime;
+            updateTimer();
+          }
+        }
+
+        updated = true;
+      }
+    } else {
+      console.log(`Invalid input at index ${i}: Not a number.`);
+    }
+  });
+
+  if (updated) {
+    console.log("Timer settings updated.");
+  } else {
+    console.log("No valid changes made.");
+  }
+
+  settingsModal.close();
+}
+updateButton.addEventListener('click', handleSettingsUpdate);
+
+
 
 //trigger the animation for showing which setting option (timers-sounds) is currently selected.
 const settingsHeaders = document.querySelectorAll('#settings-options > h3');
@@ -278,3 +334,26 @@ settingsHeaders.forEach(header => {
   })
 })
 
+const themeSwitchIcon = document.getElementById('theme-switch-icon');
+const editTaskIcon = document.getElementById('edit-task-icon');
+
+themeSwitchIcon.addEventListener('click' ,() => {
+  const isLightMode = document.body.classList.toggle('light-mode'); 
+  
+  if (isLightMode) {
+    //allakse ta icons 
+    console.log("Change icons colors");
+    themeSwitchIcon.src = 'icons/light-mode-icons/dark_mode_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg';
+    fullscreenModeIcon.src = 'icons/light-mode-icons/fullscreen_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg';
+    settingsIcon.src = 'icons/light-mode-icons/settings_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg';
+    editTaskIcon.src = 'icons/light-mode-icons/edit_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg';
+  }
+  else {
+    //allakse ta icons !!!!
+    console.log("Change icons colors.");
+    themeSwitchIcon.src = 'icons/dark-mode-icons/light_mode_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg';
+    fullscreenModeIcon.src = 'icons/dark-mode-icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg';
+    settingsIcon.src = 'icons/dark-mode-icons/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg'
+    editTaskIcon.src = 'icons/dark-mode-icons/edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg '
+  }
+});

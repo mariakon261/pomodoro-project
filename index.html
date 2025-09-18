@@ -14,7 +14,7 @@
 <!--allakse to se -->
   <div id="tasks-div">
     <p id="question-task">What do you want to focus on?</p>
-    <img src="./icons//edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="editing-icon" onclick="openTaskManager()">
+    <img id ='edit-task-icon' src="./icons/dark-mode-icons/edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="editing-icon" onclick="openTaskManager()">
   </div>
   <section id="tasks-container" class="hidden">  
 
@@ -40,8 +40,9 @@
       </ul>
        
       <div id="right-side-icons">
-        <img id="fullscreen-mode" src="/icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="fullscreen icon">
-        <img id='settings' src="/icons/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="settings icon">
+        <img id="fullscreen-mode-icon" src="/icons/dark-mode-icons/fullscreen_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="fullscreen icon">
+        <img id='settings-icon' src="/icons/dark-mode-icons/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="settings icon">
+        <img id="theme-switch-icon" src="./icons/dark-mode-icons/light_mode_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="light mode theme swtich">
       </div>
     </nav>
 
@@ -57,17 +58,17 @@
         <div id="sections-group">
           <section>
             <h4>Pomodoro duration (min) </h4>
-            <input id='modify-timer-duration-input' type="text" placeholder="Enter pomodoro duration...">
+            <input class="update-input" id='modify-timer-duration-input' type="text" placeholder="Enter pomodoro duration...">
           </section>
 
           <section>
             <h4>Short Break duration (min)</h4>
-            <input id="modify-short-break-duration-input" type="text" placeholder="Enter short break duration...">
+            <input class="update-input" id="modify-short-break-duration-input" type="text" placeholder="Enter short break duration...">
           </section>
 
           <section>
             <h4>Long Break duration (min)</h4>
-            <input id="modify-long-break-duration-input" type="text" placeholder="Enter long break duration...">
+            <input class="update-input" id="modify-long-break-duration-input" type="text" placeholder="Enter long break duration...">
           </section>
         </div>
 
