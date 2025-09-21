@@ -11,83 +11,100 @@ let longBreakDefaultTime = 15;
 let totalTime = totalDefaultTime*60; //1500 secs = 25 mins //60 secs * mins you want
 let timeLeft = totalTime;
 
+let repetitionCounterEl = document.getElementById("repetition-counter");
+let repetitionCounter = 0;
 
 let currentMode = "pomodoro" //default state
 
 let progressBar = document.getElementById('progress-bar');
 let progressBarStatus = document.getElementById('progress-bar-status');
-let ambientRainSounds = new Audio('soft-rain-ambient-111154.mp3');
- // Set the audio to loop
-ambientRainSounds.loop = true;
+
+let audio;
+
 startBtn.addEventListener('click',() => {
     if (!isRunning) { 
         startTimer();
-        ambientRainSounds.play(); // auto start ambient rain sounds 
+         handleBackgroundSoundChange();
         startBtn.textContent = "Pause";
         // console.log(ambientRainSounds.play());  debugging purposes
     }
     else {
         clearInterval(interval);
         isRunning = false;  
-        ambientRainSounds.pause();
+        if (audio) {
+          audio.pause();
+        }
         startBtn.textContent = "Start";
     }
 });
 resetBtn.addEventListener('click',resetTimer);
 
+function startTimer() {
+  if (isRunning) return;
+  isRunning = true;
+ 
+  interval = setInterval(() => {
+    if (timeLeft === 0) {
+      repetitionCounter += 1; 
+      //allakse ton arithmo sto html
+      repetitionCounterEl.textContent = repetitionCounter + "/2";
+      console.log(repetitionCounter);
+      if (repetitionCounter == 2 ) {
+        console.log("YOU MADE IT!!");
+        repetitionCounterEl.textContent = "0/2";
+        alert("You have successfully completed 2 Pomodoro cycles!");
+      }
+      audio.pause();
+      clearInterval(interval);
+      isRunning = false;
+      
+      playAlarm();
+      notifyMe();
+      console.log("Pomo finished after ", totalTime, " seconds" );
+      startBtn.textContent = "Start";
+      resetTimer();
+    } else {
+      timeLeft--;
+      updateTimer();
+      console.log("Total time: ", totalDefaultTime, " Total time left: ",timeLeft);
+    }
+  }, 1000);
+}
+//YPARXEI BUG AN BALO DEKADIKOUS. NA TO FTIAKSO H NA MHN EPITREPO DEKADIKOUS STON XRONO
 function updateTimer() {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
     let formattedTime = [minutes,seconds]
                        .map(num => num.toString().padStart(2, '0'))
                     .join(":"); //putting mins and secs in an array to manipulate them using the map array method and format them like this -> mins:secs
     timerDisplay.textContent = formattedTime;
     //console.log(formattedTime);
-
-   let progressBarPercent = ((totalTime - timeLeft) / totalTime) * 100;
+    let totalDuration = getCurrentModeDuration();
+   let progressBarPercent = ((totalDuration - timeLeft) / totalDuration) * 100;
    progressBarStatus.textContent = Math.floor(progressBarPercent) + "%";
    progressBar.style.width = progressBarPercent + "%";
-    
-
 }
 
-function startTimer() {
-    if (isRunning) return;
-    isRunning = true;
-    interval = setInterval(() => {
-        if (timeLeft === 0) {
-            clearInterval(interval);
-            isRunning = false;
-            ambientRainSounds.pause(); //because pomodoro ended
-            if (!isBreak) {
-                // Switch to break
-                isBreak = true;
-                totalTime = shortBreakDefaultTime * 60;
-                timeLeft = totalTime;
-                startBtn.textContent = "Pause"; //because the timer is running again
-                updateTimer();
-                startTimer(); // automatically start break timer
-            } else {
-                // switch back to pomodoro
-                isBreak = false;
-                totalTime = totalDefaultTime * 60;
-                timeLeft = totalTime;
-                startBtn.textContent = "Start"; // because the timer is not running
-                updateTimer();
-            }
-        } else {
-            timeLeft--;
-            updateTimer();
-        }
-    }, 1000);
+
+function playAlarm() {
+  const audio =  new Audio('sounds/phone-ringtone-location-357393.mp3');
+  audio.play();
+
+  setInterval(() => {
+    audio.pause();
+    console.log("Notification sound will stop after 5 seconds");
+  },4000);
 }
 
 function resetTimer() {
-    clearInterval(interval);
-    isRunning = false;
-    timeLeft = totalTime; // Use current mode's totalTime
-    startBtn.textContent = "Start"; // Reset button text
-    updateTimer();
+  clearInterval(interval);
+  isRunning = false;
+  if (audio) {
+    audio.pause();
+  }
+  timeLeft = getCurrentModeDuration(); // Use current mode's totalTime
+  startBtn.textContent = "Start"; // Reset button text
+  updateTimer();
 }
 /*nav link active state switching */
 const navLinks = document.querySelectorAll('.nav-link');
@@ -103,17 +120,18 @@ navLinks.forEach(link => {
     link.classList.add('nav-link-active');
      if(link.classList.contains('nav-link-pomodoro')) {
       currentMode = "pomodoro"
-        totalTime = totalDefaultTime * 60;
+        timeLeft = getCurrentModeDuration();
+         updateTimer();
     } else if(link.classList.contains('nav-link-shortbreak')) {
-      currentMode = "shortBreak"
-        totalTime = shortBreakDefaultTime * 60;
+      currentMode = "shortbreak"
+        timeLeft = getCurrentModeDuration();
+         updateTimer();
     } else if(link.classList.contains('nav-link-longbreak')) {
-      currentMode = "longBreak"
-        totalTime = longBreakDefaultTime * 60; 
+      currentMode = "longbreak"
+        timeLeft = getCurrentModeDuration();
+         updateTimer();
     }
-    // Update timeLeft and display
-    timeLeft = totalTime;
-    updateTimer();
+   
 
     // Stop any running timer
     clearInterval(interval);
@@ -256,6 +274,18 @@ let updateInputFields = document.querySelectorAll('.update-input');
 function isNumber(value) {
   return !isNaN(Number(value));
 }
+function getCurrentModeDuration() {
+  switch(currentMode) {
+    case "pomodoro":
+      return totalDefaultTime * 60;
+    case "shortbreak":
+      return shortBreakDefaultTime * 60;
+    case "longbreak":
+      return longBreakDefaultTime * 60;
+    default:
+      return totalDefaultTime * 60; // fallback to pomodoro
+  }
+}
 
 function handleSettingsUpdate() {
   console.log("Updates changed.");
@@ -276,24 +306,24 @@ function handleSettingsUpdate() {
         if (i === 0) {
           totalDefaultTime = numericValue;
           if (currentMode === "pomodoro") {
-            totalTime = numericValue * 60;
-            timeLeft = totalTime;
+            timeLeft = getCurrentModeDuration();
+            console.log(timeLeft);
             updateTimer();
           }
         }
         else if (i === 1) {
           shortBreakDefaultTime = numericValue;
           if (currentMode === "shortbreak") {
-            totalTime = numericValue * 60;
-            timeLeft = totalTime;
+            timeLeft = getCurrentModeDuration();
+            console.log(timeLeft);
             updateTimer();
           }
         }
         else if (i === 2) {
           longBreakDefaultTime = numericValue;
           if (currentMode === "longbreak") {
-            totalTime = numericValue * 60;
-            timeLeft = totalTime;
+            timeLeft = getCurrentModeDuration();
+            console.log(timeLeft)
             updateTimer();
           }
         }
@@ -303,6 +333,7 @@ function handleSettingsUpdate() {
     } else {
       console.log(`Invalid input at index ${i}: Not a number.`);
     }
+
   });
 
   if (updated) {
@@ -334,6 +365,47 @@ settingsHeaders.forEach(header => {
   })
 })
 
+//SETTINGS SOUNDS CODE 
+const tabButtons = document.querySelectorAll('.tab-button'); //for changing buttons
+const tabContents = document.querySelectorAll('.tab-content'); //for changing different tab contents (timers-sounds)
+
+tabButtons.forEach((button,index) => {
+  button.addEventListener('click', () => {
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    tabContents.forEach((tab,tabIndex) => {
+      if (index === tabIndex) {
+        tab.style.display = 'block';
+      }
+      else {
+        tab.style.display = 'none';
+      }
+    })
+  })
+})
+
+//change song depending on the dropdown menu 
+
+const soundSelectEl = document.getElementById('sound');  
+
+
+
+function handleBackgroundSoundChange() {
+
+  if (audio) {
+    audio.pause();
+  }
+  //create the new audio
+  const selectedSound = soundSelectEl.value; 
+  audio = new Audio(selectedSound);
+  audio.play();
+  audio.loop = true;
+
+  console.log("Now playing ", selectedSound);
+}
+updateButton.addEventListener('click', handleBackgroundSoundChange);
+
 const themeSwitchIcon = document.getElementById('theme-switch-icon');
 const editTaskIcon = document.getElementById('edit-task-icon');
 
@@ -357,3 +429,24 @@ themeSwitchIcon.addEventListener('click' ,() => {
     editTaskIcon.src = 'icons/dark-mode-icons/edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg '
   }
 });
+
+
+
+function notifyMe() {
+  if (!("Notification" in window)) {
+    // Check if the browser supports notifications
+    alert("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+   //if broswer has already granted permissions, send notification
+    const notification = new Notification("Pomodoro ended!");
+    // …
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then((permission) => {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        const notification = new Notification("Pomodoro ended");
+        // …
+      }
+    });
+  }
+}

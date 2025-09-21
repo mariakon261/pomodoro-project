@@ -3,14 +3,14 @@
 :root {
     --color-bg-main: #121614;
     --color-bg-containers: #151917;
-    --color-primary: #64895C;
+    --color-primary: #7aa770;
     --color-text-color: #FFFFFF;
     --color-bg-button: #3B3B3B;
 }
 .light-mode {
     --color-bg-main: #F4F4F4;
     --color-bg-containers: #FFFFFF;
-    --color-primary: #64895C;
+    --color-primary: #7aa770;
     --color-text-color: #1A1A1A;
     --color-bg-button: #E0E0E0;
 }
@@ -24,6 +24,7 @@
 
 html, body {
     height: 100%;
+    background-color: var(--color-bg-main);
 }
 main {
   display: grid;
@@ -148,6 +149,18 @@ input {
     border-bottom: 2px solid var(--color-primary);
     transition: border-bottom-color 0.5s ease-in;
 }
+
+/* sounds tab */
+#sounds-tab > section {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 30px;
+}
+#sound , option{
+    color: black;
+    width: 50%;
+}
 #tasks-div {
     display:flex;
     gap: 1rem;
@@ -172,14 +185,15 @@ ul {
     display: flex;
     gap: 1rem;
 }
-.button {
+
+.button, .tab-button {
     background-color: var(--color-bg-button);
     padding:0.5rem 1.5rem;
-    font-size: 16px;;
+    font-size: 16px;
     cursor: pointer;
     border-radius: 20px;
 }
-.button:hover, a:hover {
+.nav-item > a:hover, button:hover {
     background-color: var(--color-primary);
     transition : 1s linear;
 }
@@ -240,7 +254,7 @@ section {
 section h4 {
     margin-bottom: 10px;
 }
-#settings-options > h3 {
+#settings-options > button {
     cursor: pointer;
 }
 .settings-headers-focus {
@@ -248,3 +262,36 @@ section h4 {
     border-bottom: 2px solid var(--color-primary);
     transition: border-bottom-color 0.3s linear;
 }
+#sounds-tab {
+    margin: 20px;
+}
+.sounds-dropdown {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+option { 
+    font-family: 'Inter', sans-serif;
+}
+
+
+
+footer { 
+    background-color: var(--color-bg-main);
+    display: flex;
+    justify-content: flex-end;
+}
+/* figure out a way to make the icon have white*/
+footer img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+

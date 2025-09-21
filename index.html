@@ -48,27 +48,41 @@
 
     <!--settings modal code-->
      <dialog id='settings-modal' >
-
       <div id="settings-modal-container">
+
         <header id="settings-options">
-            <h3>Timers</h3>
-            <h3>Sounds</h3>
+            <!-- <h3>Timers</h3>
+            <h3>Sounds</h3> -->
+            <button class="tab-button active" data-tab="timers-tab">Timers</button>
+            <button class="tab-button" data-tab="sounds-tab">Sounds</button>
         </header>
 
-        <div id="sections-group">
+        
+        <div class="tab-content" id="sections-group">
           <section>
             <h4>Pomodoro duration (min) </h4>
-            <input class="update-input" id='modify-timer-duration-input' type="text" placeholder="Enter pomodoro duration...">
+            <input class="update-input" id='modify-timer-duration-input' type="text" step="1" min="1" placeholder="Enter pomodoro duration...">
           </section>
 
           <section>
             <h4>Short Break duration (min)</h4>
-            <input class="update-input" id="modify-short-break-duration-input" type="text" placeholder="Enter short break duration...">
+            <input class="update-input" id="modify-short-break-duration-input" type="text" step="1" min="1" placeholder="Enter short break duration...">
           </section>
 
           <section>
             <h4>Long Break duration (min)</h4>
-            <input class="update-input" id="modify-long-break-duration-input" type="text" placeholder="Enter long break duration...">
+            <input class="update-input" id="modify-long-break-duration-input" type="text" step="1" min="1" placeholder="Enter long break duration...">
+          </section>
+        </div>
+
+        <div class="tab-content" id="sounds-tab" style="display: none">
+          <section>
+            <!-- <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> -->
+            <select id="sound" class="sounds-dropdown">
+              <option value="sounds/soft-rain-ambient-111154.mp3" selected>Rain</option>
+              <option value="sounds/lofi-relax-beat-loop-bpm-88-eb-major-ii-v-i-361752.mp3">Lo-fi</option>
+              <option value="sounds/ambient-wave-48-tribute-17243.mp3">Ambient</option>
+            </select>
           </section>
         </div>
 
@@ -79,18 +93,27 @@
     <div id="pomodoro-container">
       <div id="timer-display">25:00</div>
       <div id="progress-container">
-      <div id="progress-bar"></div>
-      <div id="progress-bar-status">0%</div>
-    </div>
+        <div id="progress-bar"></div>
+        <div id="progress-bar-status">0%</div>
+        
+      </div>
+      
+      <span id="repetition-counter">0/2</span>
+      
+      <div class="buttons-group">
+        <button class='button' id="start-button">Start</button>
+        <button class="button" id="reset-button">Reset</button>
+      </div>
 
-    <div class="buttons-group">
-      <button class='button' id="start-button">Start</button>
-      <button class="button" id="reset-button">Reset</button>
     </div>
-
   </section>
   </main>
-    <script src="script.js"></script>
+  <footer>
+    <a href="https://github.com/mariakon261/pomodoro-project" target="_blank" rel="noopener">
+      <img src="./icons/github-mark-c791e9551fe4/github-mark/github-mark.svg" alt="">
+    </a>
+  </footer>
+    <script src="./script.js"></script>
 
 </body>
 </html>
